@@ -117,6 +117,7 @@ public class MainActivity extends ActionBarActivity {
     private BluetoothAdapter mBluetoothAdapter = null;
     // Member object for the chat services
     private BluetoothChatService mChatService = null;
+    //mChatService is the interface connection between main activity and BluetoothChatService activity
 
 
     @Override
@@ -174,7 +175,7 @@ public class MainActivity extends ActionBarActivity {
 
     private void setupChat() {
         Log.d(TAG, "setupChat()");
-
+        //TODO set up LED buttons and keep using sendMessage function
         // Initialize the array adapter for the conversation thread
         mConversationArrayAdapter = new ArrayAdapter<String>(this, R.layout.message);
         mConversationView = (ListView) findViewById(R.id.in);
@@ -346,6 +347,12 @@ public class MainActivity extends ActionBarActivity {
                     connectDevice(data, REQUEST_CONNECT_DEVICE_INSECURE);
                 }
                 break;
+            case REQUEST_CONNECT_UART:
+                // When DeviceListActivity returns with a UART device to connect
+                if (resultCode == Activity.RESULT_OK) {
+                    connectDevice(data, REQUEST_CONNECT_UART);
+                }
+                break;
             case REQUEST_ENABLE_BT:
                 // When the request to enable Bluetooth returns
                 if (resultCode == Activity.RESULT_OK) {
@@ -357,6 +364,7 @@ public class MainActivity extends ActionBarActivity {
                     Toast.makeText(this, R.string.bt_not_enabled_leaving, Toast.LENGTH_SHORT).show();
                     finish();
                 }
+                break;
         }
     }
 
