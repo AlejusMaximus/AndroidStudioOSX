@@ -15,7 +15,8 @@
 -->
 
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_name">Bluev2EDR</string>
+    <!--  Here App Name is defined -->
+    <string name="app_name">Blue2Arduino</string>
     <string name="action_settings">Settings</string>
     <!--  BluetoothChat -->
     <string name="send">Send</string>
