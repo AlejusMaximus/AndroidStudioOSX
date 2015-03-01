@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.apps101.aleixpm.blue2arduino"
-        minSdkVersion 15
+        minSdkVersion 19
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"

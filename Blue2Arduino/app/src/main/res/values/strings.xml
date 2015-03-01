@@ -18,6 +18,7 @@
     <!--  Here App Name is defined -->
     <string name="app_name">Blue2Arduino</string>
     <string name="action_settings">Settings</string>
+    <string name="empty"></string>
     <!--  BluetoothChat -->
     <string name="send">Send</string>
     <string name="not_connected">You are not connected to a device</string>

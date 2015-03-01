@@ -76,6 +76,7 @@ package com.apps101.aleixpm.blue2arduino;
         import android.widget.ListView;
         import android.widget.TextView;
         import android.widget.Toast;
+        import android.widget.ToggleButton;
 
 /**
  * This is the main Activity that displays the current chat session.
@@ -118,6 +119,9 @@ public class MainActivity extends ActionBarActivity {
     // Member object for the chat services
     private BluetoothChatService mChatService = null;
     //mChatService is the interface connection between main activity and BluetoothChatService activity
+
+    private ToggleButton yellow_button_LED = null;
+    private ToggleButton red_button_LED = null;
 
 
     @Override
@@ -175,7 +179,42 @@ public class MainActivity extends ActionBarActivity {
 
     private void setupChat() {
         Log.d(TAG, "setupChat()");
-        //TODO set up LED buttons and keep using sendMessage function
+        //++++++++++++++++++++++++++++++++++++ Yellow LED ++++++++++++++++++++++++++++++++++++//
+        yellow_button_LED = (ToggleButton)findViewById(R.id.yellow_LED);
+        yellow_button_LED.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if(yellow_button_LED.isChecked())     {
+                    if(D) Log.e(TAG, "Turn on Yellow LED");
+                    sendMessage("1\r");
+                    findViewById(R.id.yellow_LED).setBackgroundResource(R.drawable.yellow_led_on);
+                    //Toast.makeText(this, "Turn on yellow LED", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    if(D) Log.e(TAG, "Turn off Yellow LED");
+                    sendMessage("2\r");
+                    findViewById(R.id.yellow_LED).setBackgroundResource(R.drawable.yellow_led_off);
+                    //Toast.makeText(this, "Turn off yellow LED", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        //++++++++++++++++++++++++++++++++++++ Red LED ++++++++++++++++++++++++++++++++++++//
+        red_button_LED = (ToggleButton)findViewById(R.id.red_LED);
+        red_button_LED.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if(red_button_LED.isChecked())     {
+                    if(D) Log.e(TAG, "Turn on red LED");
+                    sendMessage("3\r");
+                    findViewById(R.id.red_LED).setBackgroundResource(R.drawable.red_led_on);
+                    //Toast.makeText(this, "Turn on yellow LED", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    if(D) Log.e(TAG, "Turn off red LED");
+                    sendMessage("4\r");
+                    findViewById(R.id.red_LED).setBackgroundResource(R.drawable.red_led_off);
+                    //Toast.makeText(this, "Turn off yellow LED", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         // Initialize the array adapter for the conversation thread
         mConversationArrayAdapter = new ArrayAdapter<String>(this, R.layout.message);
         mConversationView = (ListView) findViewById(R.id.in);
