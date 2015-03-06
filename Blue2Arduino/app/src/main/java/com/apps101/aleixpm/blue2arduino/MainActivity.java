@@ -185,13 +185,13 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 if(yellow_button_LED.isChecked())     {
                     if(D) Log.e(TAG, "Turn on Yellow LED");
-                    sendMessage("1\r");
+                    sendMessage("yellow on\n");
                     findViewById(R.id.yellow_LED).setBackgroundResource(R.drawable.yellow_led_on);
                     //Toast.makeText(this, "Turn on yellow LED", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     if(D) Log.e(TAG, "Turn off Yellow LED");
-                    sendMessage("2\r");
+                    sendMessage("yellow off\n");
                     findViewById(R.id.yellow_LED).setBackgroundResource(R.drawable.yellow_led_off);
                     //Toast.makeText(this, "Turn off yellow LED", Toast.LENGTH_SHORT).show();
                 }
@@ -203,13 +203,13 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 if(red_button_LED.isChecked())     {
                     if(D) Log.e(TAG, "Turn on red LED");
-                    sendMessage("3\r");
+                    sendMessage("red on\n");
                     findViewById(R.id.red_LED).setBackgroundResource(R.drawable.red_led_on);
                     //Toast.makeText(this, "Turn on yellow LED", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     if(D) Log.e(TAG, "Turn off red LED");
-                    sendMessage("4\r");
+                    sendMessage("red on\n");
                     findViewById(R.id.red_LED).setBackgroundResource(R.drawable.red_led_off);
                     //Toast.makeText(this, "Turn off yellow LED", Toast.LENGTH_SHORT).show();
                 }
