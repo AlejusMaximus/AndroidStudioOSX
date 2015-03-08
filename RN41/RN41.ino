@@ -13,14 +13,18 @@
 
 int bluetoothTx = 10;  // TX-Output pin of RN41, Arduino D10
 int bluetoothRx = 11;  // RX-Input pin of RN41, Arduino D11
-
-SoftwareSerial bluetooth(bluetoothTx, bluetoothRx);
+SoftwareSerial BT(bluetoothTx, bluetoothRx);
+//10 RX ARDUINO -> TX RN-41
+//11 TX ARDUINO -> RX RN-41d
+char cadena[255]; //Creamos un array de caracteres de 256 cposiciones
+int i=0; //Tamaño actual del array
+int yellow=13;
 
 void setup()
 {
-  Serial.begin(9600);  // Begin the serial monitor at 9600bps
+  Serial.begin(115200);  // Begin the serial monitor at 9600bps
 
-  bluetooth.begin(115200);  // The Bluetooth Mate defaults to 115200bps
+  BT.begin(115200);  // The Bluetooth Mate defaults to 115200bps
   /*
   bluetooth.print("$");  // Print three times individually
   bluetooth.print("$");
@@ -30,23 +34,88 @@ void setup()
   // 115200 can be too fast at times for NewSoftSerial to relay the data reliably
   bluetooth.begin(9600);  // Start bluetooth serial at 9600
   */
+  // initialize digital pin 13 as an output.
+  pinMode(yellow, OUTPUT);
   Serial.println("Setup Done");
 }
 
 void loop()
 {
-  if(bluetooth.available())  // If the bluetooth sent any characters
+  //Cuando haya datos disponibles
+  if(BT.available())
   {
-    // Send any characters the bluetooth prints to the serial monitor
-    Serial.println("bluetooth.available()");
-    Serial.print((char)bluetooth.read());  
+    //Serial.println("BT.available()");
+    
+    char dato=BT.read(); //Guarda los datos carácter a carácter en la variable "dato"
+ 
+    cadena[i++]=dato; //Vamos colocando cada carácter recibido en el array "cadena"
+ 
+    //Cuando reciba una nueva línea (al pulsar enter en la app) entra en la función
+    if(dato=='\n')
+    {
+      Serial.println("string obtained: ");
+      Serial.println(cadena); //Visualizamos el comando recibido en el Monitor Serial
+      /*
+      //GREEN LED
+      if(strstr(cadena,"green on")!=0)
+      {
+        digitalWrite(green,HIGH);
+      }
+      if(strstr(cadena,"green off")!=0)
+      {
+        digitalWrite(green,LOW);
+      }
+      */
+      //YELLOW LED
+      if(strstr(cadena,"yellow on")!=0)
+      {
+        digitalWrite(yellow,HIGH);
+        BT.write("\ryellow on");
+        Serial.println("ACK - yellow on");
+      }
+      if(strstr(cadena,"yellow off")!=0)
+      {
+        digitalWrite(yellow,LOW);
+        BT.write("\ryellow off");
+        Serial.println("ACK - yellow off");
+      }
+      /*
+      //RED LED
+      if(strstr(cadena,"red on")!=0)
+      {
+        digitalWrite(red,HIGH);
+      }
+      if(strstr(cadena,"red off")!=0)
+      {
+        digitalWrite(red,LOW);
+      }
+      //ALL ON
+      if(strstr(cadena,"on all")!=0)
+      {
+        digitalWrite(green,HIGH);
+        digitalWrite(yellow,HIGH);
+        digitalWrite(red,HIGH);
+      }
+      //ALL OFF
+      if(strstr(cadena,"off all")!=0)
+      {
+        digitalWrite(green,LOW);
+        digitalWrite(yellow,LOW);
+        digitalWrite(red,LOW);
+      }
+      */
+      clean(); //Ejecutamos la función clean() para limpiar el array
+    }
   }
-  if(Serial.available())  // If stuff was typed in the serial monitor
+}
+ 
+//Limpia el array
+void clean()
+{
+  for (int cl=0; cl<=i; cl++)
   {
-    Serial.println("Serial.available()");
-    // Send any characters the Serial monitor prints to the bluetooth
-    bluetooth.print((char)Serial.read());
+    cadena[cl]=0;
   }
-  // and loop forever and ever!
+  i=0;
 }
 

@@ -209,7 +209,7 @@ public class MainActivity extends ActionBarActivity {
                 }
                 else {
                     if(D) Log.e(TAG, "Turn off red LED");
-                    sendMessage("red on\n");
+                    sendMessage("red off\n");
                     findViewById(R.id.red_LED).setBackgroundResource(R.drawable.red_led_off);
                     //Toast.makeText(this, "Turn off yellow LED", Toast.LENGTH_SHORT).show();
                 }
