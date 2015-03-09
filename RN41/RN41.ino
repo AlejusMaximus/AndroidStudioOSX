@@ -26,14 +26,14 @@ Setting up RN-41 before running this code into Arduino, done in Windows 8:
 
 Tera Term -> http://en.sourceforge.jp/projects/ttssh2/releases/
 COM4:9600baud
-PARA ENTRAR -> $$$
+GO INSIDE COMAND MODE -> $$$
 H + enter -> basic configuration
 Change device name -> SN,ALEJUSRN41
 D -> BASIC SETTINGS.
-change baudrate -> SU,9600
+Change Baudrate -> SU,9600
 D
 Change PIN -> SP,4646
-PARA SALIR-> ---
+TO GO OUT-> ---
 END
 https://www.youtube.com/watch?v=QCXw_kHZ8Ok
 */
