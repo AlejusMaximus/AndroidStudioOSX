@@ -8,8 +8,8 @@
 
 The circuit: 
 ------------
- * RX is digital pin 10 (connect to JY-MCU's TX)
- * TX is digital pin 11 (connect to JY-MCU's RX)
+ * RX is digital pin 10 (connect to JY-MCU's TX) 
+ * TX is digital pin 11 (connect to JY-MCU's RX) (through voltage divider 5V((10k+10k)/(10k+10k+10k)))
  SoftwareSerial mySerial(10, 11); // RX, TX
  
  Note:

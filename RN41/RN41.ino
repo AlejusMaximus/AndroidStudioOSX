@@ -1,14 +1,43 @@
 /*
-  Example Bluetooth Serial Passthrough Sketch
- by: Jim Lindblom
- SparkFun Electronics
- date: February 26, 2013
- license: Public domain
+The MIT License (MIT)
 
- This example sketch converts an RN-42 bluetooth module to
- communicate at 9600 bps (from 115200), and passes any serial
- data between Serial Monitor and bluetooth module.
- */
+Copyright (c) 2015 AlejusMaximus
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+Setting up RN-41 before running this code into Arduino, done in Windows 8:
+
+Tera Term -> http://en.sourceforge.jp/projects/ttssh2/releases/
+COM4:9600baud
+PARA ENTRAR -> $$$
+H + enter -> basic configuration
+Change device name -> SN,ALEJUSRN41
+D -> BASIC SETTINGS.
+change baudrate -> SU,9600
+D
+Change PIN -> SP,4646
+PARA SALIR-> ---
+END
+https://www.youtube.com/watch?v=QCXw_kHZ8Ok
+*/
+
 #include <SoftwareSerial.h>  
 
 int bluetoothTx = 10;  // TX-Output pin of RN41, Arduino D10
@@ -19,24 +48,12 @@ SoftwareSerial BT(bluetoothTx, bluetoothRx);
 char cadena[255]; //Creamos un array de caracteres de 256 cposiciones
 int i=0; //Tamaño actual del array
 int yellow=13;
-
 void setup()
 {
-  Serial.begin(115200);  // Begin the serial monitor at 9600bps
-
-  BT.begin(115200);  // The Bluetooth Mate defaults to 115200bps
-  /*
-  bluetooth.print("$");  // Print three times individually
-  bluetooth.print("$");
-  bluetooth.print("$");  // Enter command mode
-  delay(100);  // Short delay, wait for the Mate to send back CMD
-  bluetooth.println("U,9600,N");  // Temporarily Change the baudrate to 9600, no parity
-  // 115200 can be too fast at times for NewSoftSerial to relay the data reliably
-  bluetooth.begin(9600);  // Start bluetooth serial at 9600
-  */
+  BT.begin(9600); //Velocidad del puerto del módulo Bluetooth
+  Serial.begin(9600); //Abrimos la comunicación serie con el PC y establecemos velocidad
   // initialize digital pin 13 as an output.
   pinMode(yellow, OUTPUT);
-  Serial.println("Setup Done");
 }
 
 void loop()
@@ -118,4 +135,3 @@ void clean()
   }
   i=0;
 }
-
