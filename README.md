@@ -12,11 +12,11 @@ Contains an Android app which can communicate with an Arduino using bluetooth 2.
 JY-MCU
 ------
 
-This folder contains an Arduino code to communicate with JY-MCU. All the information to setup JY-MCU board is on the code. Read carefully and checkout some website which will guide you to setup your JY-MCU module.
+This folder contains an Arduino code to communicate with JY-MCU. All the information to setup JY-MCU board is on the code. Read carefully and checkout some websites contained on the code which will guide you to setup your JY-MCU module properly.
 
 RN41
 ----
-This folder contains an Arduino code to communicate with RN-41. All the information to setup RN-41 board is on the code. Read carefully and checkout some website which will guide you to setup your RN-41 module.
+This folder contains an Arduino code to communicate with RN-41. All the information to setup RN-41 board is on the code. Read carefully and checkout some websites contained on the code which will guide you to setup your RN-41 module properly.
 
 
 
