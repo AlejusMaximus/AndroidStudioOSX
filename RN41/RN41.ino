@@ -87,13 +87,13 @@ void loop()
       if(strstr(cadena,"yellow on")!=0)
       {
         digitalWrite(yellow,HIGH);
-        BT.write("\ryellow on");
+        BT.write("yellow on");
         Serial.println("ACK - yellow on");
       }
       if(strstr(cadena,"yellow off")!=0)
       {
         digitalWrite(yellow,LOW);
-        BT.write("\ryellow off");
+        BT.write("yellow off");
         Serial.println("ACK - yellow off");
       }
       /*
