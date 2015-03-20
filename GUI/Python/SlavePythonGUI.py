@@ -68,9 +68,9 @@ class SerialThread(threading.Thread):
                         setupRedLedOff(root)
                         print('yellow OFF received')
 
-            except (KeyboardInterrupt, SystemExit) as e:
-                print "Interrupt Issued. Exiting Program with error state: %s"%(str(e))
-                #exit(1)
+            except:
+                bus.close()   #si salta el 'except' cerramos igualmente el bus
+                raise         #mostramos el causante del 'except'
 
 class Example(Frame):
 
