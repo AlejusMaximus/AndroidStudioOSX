@@ -88,24 +88,26 @@ void loop()
       {
         digitalWrite(yellow,HIGH);
         //BT.write("yellow on");
-        //Serial.println("ACK - yellow on");
+        Serial.println("ACK - yellow on");
       }
       if(strstr(cadena,"yellow off")!=0)
       {
         digitalWrite(yellow,LOW);
         //BT.write("yellow off");
-        //Serial.println("ACK - yellow off");
+        Serial.println("ACK -yellow off");
       }
-      /*
       //RED LED
       if(strstr(cadena,"red on")!=0)
       {
-        digitalWrite(red,HIGH);
+        //digitalWrite(red,HIGH);
+        Serial.println("ACK - red on");
       }
       if(strstr(cadena,"red off")!=0)
       {
-        digitalWrite(red,LOW);
+        //digitalWrite(red,LOW);
+        Serial.println("ACK - red off");
       }
+      /*
       //ALL ON
       if(strstr(cadena,"on all")!=0)
       {

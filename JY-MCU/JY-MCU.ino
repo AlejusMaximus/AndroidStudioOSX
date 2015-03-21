@@ -61,8 +61,8 @@ void loop()
     //Cuando reciba una nueva línea (al pulsar enter en la app) entra en la función
     if(dato=='\n')
     {
-      Serial.println("string obtained: ");
-      Serial.println(cadena); //Visualizamos el comando recibido en el Monitor Serial
+      //Serial.println("string obtained: ");
+      //Serial.println(cadena); //Visualizamos el comando recibido en el Monitor Serial
       /*
       //GREEN LED
       if(strstr(cadena,"green on")!=0)
@@ -79,24 +79,28 @@ void loop()
       {
         digitalWrite(yellow,HIGH);
         BT.write("yellow on");
-        Serial.println("ACK - yellow on");
+        Serial.println("yellow on");
       }
       if(strstr(cadena,"yellow off")!=0)
       {
         digitalWrite(yellow,LOW);
         BT.write("yellow off");
-        Serial.println("ACK - yellow off");
+        Serial.println("yellow off");
       }
-      /*
       //RED LED
       if(strstr(cadena,"red on")!=0)
       {
-        digitalWrite(red,HIGH);
+        //digitalWrite(red,HIGH);     
+        BT.print("red on");
+        Serial.println("red on");
       }
       if(strstr(cadena,"red off")!=0)
       {
-        digitalWrite(red,LOW);
+        //digitalWrite(red,LOW);
+        BT.print("red off");
+        Serial.println("red off");
       }
+      /*
       //ALL ON
       if(strstr(cadena,"on all")!=0)
       {

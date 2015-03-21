@@ -40,11 +40,11 @@ https://www.youtube.com/watch?v=QCXw_kHZ8Ok
 
 #include <SoftwareSerial.h>  
 
-int bluetoothTx = 10;  // TX-Output pin of RN41, Arduino D10
-int bluetoothRx = 11;  // RX-Input pin of RN41, Arduino D11
+int bluetoothTx = 10;  // TX-Output pin of RN41 connected to Arduino D10
+int bluetoothRx = 11;  // RX-Input pin of RN41 connected to Arduino D11
 SoftwareSerial BT(bluetoothTx, bluetoothRx);
 //10 RX ARDUINO -> TX RN-41
-//11 TX ARDUINO -> RX RN-41d
+//11 TX ARDUINO -> RX RN-41
 char cadena[255]; //Creamos un array de caracteres de 256 cposiciones
 int i=0; //Tamaño actual del array
 int yellow=13;
@@ -70,8 +70,8 @@ void loop()
     //Cuando reciba una nueva línea (al pulsar enter en la app) entra en la función
     if(dato=='\n')
     {
-      Serial.println("string obtained: ");
-      Serial.println(cadena); //Visualizamos el comando recibido en el Monitor Serial
+      //Serial.println("string obtained: ");
+      //Serial.println(cadena); //Visualizamos el comando recibido en el Monitor Serial
       /*
       //GREEN LED
       if(strstr(cadena,"green on")!=0)
@@ -88,24 +88,28 @@ void loop()
       {
         digitalWrite(yellow,HIGH);
         BT.write("yellow on");
-        Serial.println("ACK - yellow on");
+        Serial.println("yellow on");
       }
       if(strstr(cadena,"yellow off")!=0)
       {
         digitalWrite(yellow,LOW);
         BT.write("yellow off");
-        Serial.println("ACK - yellow off");
+        Serial.println("yellow off");
       }
-      /*
       //RED LED
       if(strstr(cadena,"red on")!=0)
       {
-        digitalWrite(red,HIGH);
+        //digitalWrite(red,HIGH);     
+        BT.print("red on");
+        Serial.println("red on");
       }
       if(strstr(cadena,"red off")!=0)
       {
-        digitalWrite(red,LOW);
+        //digitalWrite(red,LOW);
+        BT.print("red off");
+        Serial.println("red off");
       }
+      /*
       //ALL ON
       if(strstr(cadena,"on all")!=0)
       {
