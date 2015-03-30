@@ -13,22 +13,24 @@
   by Scott Fitzgerald
  */
 
-
+//Tested on ArduinoMega 2560:
+int RedLEDPin = 53;
+int YellowLEDPin = 51;
 // the setup function runs once when you press reset or power the board
 void setup() {
-  Serial.begin(9600);
   // initialize digital pin 13 as an output.
-  pinMode(13, OUTPUT);
+  pinMode(YellowLEDPin, OUTPUT);
+  pinMode(RedLEDPin, OUTPUT);
 }
 
 // the loop function runs over and over again forever
 void loop() {
-  Serial.println("yellow on");
+  digitalWrite(YellowLEDPin, HIGH);   // turn the LED on (HIGH is the voltage level)
   delay(1000);              // wait for a second
-  Serial.println("yellow off");
+  digitalWrite(YellowLEDPin, LOW);    // turn the LED off by making the voltage LOW
   delay(1000);              // wait for a second
-  Serial.println("red on");
+    digitalWrite(RedLEDPin, HIGH);   // turn the LED on (HIGH is the voltage level)
   delay(1000);              // wait for a second
-  Serial.println("red off");
+  digitalWrite(RedLEDPin, LOW);    // turn the LED off by making the voltage LOW
   delay(1000);              // wait for a second
 }

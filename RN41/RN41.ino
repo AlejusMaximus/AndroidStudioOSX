@@ -47,13 +47,18 @@ SoftwareSerial BT(bluetoothTx, bluetoothRx);
 //11 TX ARDUINO -> RX RN-41
 char cadena[255]; //Creamos un array de caracteres de 256 cposiciones
 int i=0; //Tamaño actual del array
-int yellow=13;
+//Tested on ArduinoMega 2560:
+int RedLEDPin = 53;
+int YellowLEDPin = 51;
+
+
 void setup()
 {
   BT.begin(9600); //Velocidad del puerto del módulo Bluetooth
   Serial.begin(9600); //Abrimos la comunicación serie con el PC y establecemos velocidad
   // initialize digital pin 13 as an output.
-  pinMode(yellow, OUTPUT);
+  pinMode(YellowLEDPin, OUTPUT);
+  pinMode(RedLEDPin, OUTPUT);
 }
 
 void loop()
@@ -86,26 +91,26 @@ void loop()
       //YELLOW LED
       if(strstr(cadena,"yellow on")!=0)
       {
-        digitalWrite(yellow,HIGH);
+        digitalWrite(YellowLEDPin,HIGH);
         BT.write("yellow on");
         Serial.println("yellow on");
       }
       if(strstr(cadena,"yellow off")!=0)
       {
-        digitalWrite(yellow,LOW);
+        digitalWrite(YellowLEDPin,LOW);
         BT.write("yellow off");
         Serial.println("yellow off");
       }
       //RED LED
       if(strstr(cadena,"red on")!=0)
       {
-        //digitalWrite(red,HIGH);     
+        digitalWrite(RedLEDPin,HIGH);     
         BT.print("red on");
         Serial.println("red on");
       }
       if(strstr(cadena,"red off")!=0)
       {
-        //digitalWrite(red,LOW);
+        digitalWrite(RedLEDPin,LOW);
         BT.print("red off");
         Serial.println("red off");
       }
