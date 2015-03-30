@@ -18,5 +18,9 @@ RN41
 ----
 This folder contains an Arduino code to communicate with RN-41. All the information to setup RN-41 board is on the code. Read carefully and checkout some websites contained on the code which will guide you to setup your RN-41 module properly.
 
+GUI
+----
+This folder contains a GUI, Graphical User Interface, which shows Arduino's LED status. My purpose is to develop three GUI, each one written in a different programming language: Python, Java and QML. Inside GUI folder you will find an Arduino code in order to test each GUI: Slave or Master. Slave is a GUI that just shows what is listening from Serial port. On the other hand, a Master GUI sends commands to Arduino.
+
 
 
