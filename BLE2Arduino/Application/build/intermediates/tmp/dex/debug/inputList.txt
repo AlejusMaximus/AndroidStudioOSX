@@ -1,0 +1,7 @@
+/Users/aleixpm/AndroidStudioProjects/BLE2Arduino/Application/build/intermediates/classes/debug
+/Users/aleixpm/AndroidStudioProjects/BLE2Arduino/Application/build/intermediates/pre-dexed/debug/internal_impl-21.0.2-4a5a5a7c05d288f7cb105e753015add13f534a2d.jar
+/Users/aleixpm/AndroidStudioProjects/BLE2Arduino/Application/build/intermediates/pre-dexed/debug/support-annotations-21.0.2-94c25532ca5450cb12cca18a79e2095394c47602.jar
+/Users/aleixpm/AndroidStudioProjects/BLE2Arduino/Application/build/intermediates/pre-dexed/debug/classes-a166cf01606ea6b77da43f28284d0b1c67e96157.jar
+/Users/aleixpm/AndroidStudioProjects/BLE2Arduino/Application/build/intermediates/pre-dexed/debug/classes-ec32512d8f224a450cb3566c70702c88c4c946a8.jar
+/Users/aleixpm/AndroidStudioProjects/BLE2Arduino/Application/build/intermediates/pre-dexed/debug/internal_impl-21.0.2-228949297df009c9770d722582c629dad273dca7.jar
+/Users/aleixpm/AndroidStudioProjects/BLE2Arduino/Application/build/intermediates/pre-dexed/debug/classes-de8afac810f86b7a9268dca09ee357f5a29765ba.jar
