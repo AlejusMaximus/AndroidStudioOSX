@@ -1,10 +1,12 @@
 package com.apps101.aleixpm.visualtest;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.v7.app.ActionBarActivity;
+import android.os.AsyncTask;
 import android.os.Bundle;
+
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,33 +18,37 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.File;
 import java.io.IOException;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
 
     // Debugging
-    private static final String TAG = "Visual_Engin";
+    private static final String TAG = "Visual_Engin_Main";
+    private static final String TAG_PARSE = "ParseURL";
     private static final boolean D = true;
 
-    TextView outputURLs;
+    private static String FAIL = "FAIL";
+    private static String PASS = "PASS";
+    public TextView outputURLs;
+
+    //Hardcoded website:
+    String siteUrl = "http://www.visual-engin.com";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Connecting to the Network:
-        ConnectivityManager connMgr = (ConnectivityManager)
+        if(D) Log.e(TAG, "Checking Network connection");
+        ConnectivityManager myConnMgr = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
+        NetworkInfo myNetworkInfo = myConnMgr.getActiveNetworkInfo();
+        if (myNetworkInfo != null && myNetworkInfo.isConnected()) {
             Toast.makeText(this, "Network available", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(this, "Network not available", Toast.LENGTH_LONG).show();
             finish();
-            return;
         }
     }
 
@@ -50,42 +56,80 @@ public class MainActivity extends ActionBarActivity {
     public void onStart() {
         super.onStart();
         if(D) Log.e(TAG, "++ ON START ++");
+        //Layout TextView is linked:
         outputURLs = (TextView) findViewById(R.id.outputURLs);
-        //UnitTest();
+        if(D) Log.e(TAG, "...calling unit Test...");
+        boolean result = unitTest();
+        if(result) {
+            Toast.makeText(this, "UnitTest PASS", Toast.LENGTH_LONG).show();
+        }else{
+            Toast.makeText(this, "UnitTest NOT PASS", Toast.LENGTH_LONG).show();
+        }
+    }
+    /**
+     * This class is used for Parse the desired URL
+     * @author aleixpm
+     * @version 1.0
+     */
+    public class ParseURL extends AsyncTask<String, Void, String>{
+        /**
+         * This method executes the URL parse InBackground
+         * @return String which will fill the outputURLs
+         */
+        @Override
+        protected String doInBackground(String... strings) {
+            StringBuffer myStringBuffer = new StringBuffer();
+            try {
+                if(D) Log.e(TAG_PARSE , "Connecting to ["+strings[0]+"]");
+                Document doc  = Jsoup.connect(strings[0]).get();
+                if(D) Log.e(TAG_PARSE , "Connecting to ["+strings[0]+"]");
 
+                Element content = doc.getElementById("content");
+                Elements links = content.getElementsByTag("a");
+                for (Element link : links) {
+                    String linkHref = link.attr("href");
+                    myStringBuffer.append(linkHref +"\n");
+                    if(D) Log.e(TAG_PARSE , "linkHref:"+linkHref);
+                    String linkText = link.text();
+                    if(D) Log.e(TAG_PARSE , "linkText:"+linkText);
+                }
+                if(D) Log.e(TAG_PARSE , "...try finished..");
+
+            } catch (IOException e) {
+                if(D) Log.e(TAG_PARSE , "...FAIL Catched..");
+                return FAIL;
+            }
+            if(D) Log.e(TAG_PARSE , "...myStringBuffer returned..");
+            return myStringBuffer.toString();
+        }
+        /**
+         * onPostExecute displays the results of the AsyncTask. It sets outputURLs TextView.
+         */
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            if(D) Log.e(TAG_PARSE , "...inside onPostExecute..");
+            outputURLs.setText(result);
+            if(D) Log.e(TAG_PARSE , "...onPostExecute: text set..");
+        }
     }
 
     /**
-     * This method is used for unit testing
+     * This method is used for unit testing, it print the result: FAIL or PASS.
      * @author aleixpm
      * @version 1.0
-     * @param TODO
-     * @return true or false
      */
-    public boolean UnitTest(){
-        Log.d("Jsoup", "Inside UnitTest");
-        //TODO:
-        //http://jsoup.org/cookbook/extracting-data/dom-navigation
-        //http://www.survivingwithandroid.com/2014/04/parsing-html-in-android-with-jsoup.html
-        String website = "http://www.visual-engin.com";
-        Document doc = null;
-        try {
-            doc = Jsoup.connect(website).get();
-            //http://jsoup.org/cookbook/input/load-document-from-url
-        } catch (IOException e) {
-            e.printStackTrace();
+    public boolean unitTest(){
+        if(D) Log.e(TAG, "+++ myUnitTest() +++");
+        (new ParseURL()).execute(siteUrl);
+        String checkOutputURLs = outputURLs.getText().toString();
+        if(FAIL.equals(checkOutputURLs)){
+            if(D) Log.e(TAG, FAIL);
             return false;
+        }else {
+            if (D) Log.e(TAG, PASS);
+            return true;
         }
-        //doc = Jsoup.parse(input, "UTF-8", "http://example.com/");
-        Element content = doc.getElementById("content");
-        Elements links = content.getElementsByTag("a");
-        for (Element link : links) {
-            String linkHref = link.attr("href");
-            outputURLs.append(linkHref +"\n");
-            String linkText = link.text();
-        }
-        return true;
-
     }
 
     @Override
@@ -104,28 +148,5 @@ public class MainActivity extends ActionBarActivity {
     public void onDestroy() {
         super.onDestroy();
         if(D) Log.e(TAG, "--- ON DESTROY ---");
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }
