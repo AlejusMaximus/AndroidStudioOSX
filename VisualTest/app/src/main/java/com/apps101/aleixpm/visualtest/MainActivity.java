@@ -51,8 +51,7 @@ public class MainActivity extends ActionBarActivity {
         super.onStart();
         if(D) Log.e(TAG, "++ ON START ++");
         outputURLs = (TextView) findViewById(R.id.outputURLs);
-
-        UnitTest();
+        //UnitTest();
 
     }
 
