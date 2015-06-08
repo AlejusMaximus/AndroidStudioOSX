@@ -1,9 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'myAndroidKey'
+            keyPassword 'myPassword'
+            storeFile file('/Users/aleixpm/AndroidStudioProjects/AndroidAleix.jks')
+            storePassword 'myPassword'
+        }
+    }
     compileSdkVersion 22
     buildToolsVersion "21.1.2"
-
     defaultConfig {
         applicationId "com.apps101.aleixpm.visualtest"
         minSdkVersion 18
@@ -15,6 +22,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
 }
