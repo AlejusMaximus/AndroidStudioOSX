@@ -31,6 +31,8 @@ public class MainActivity extends ActionBarActivity {
      * This method is used for unit testing
      * @author aleixpm
      * @version 1.0
+     * @param TBD
+     * @return true or false
      */
     public boolean UnitTest(){
         Log.d("Jsoup","Inside UnitTest");
