@@ -7,9 +7,8 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +18,9 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
 
 
 public class MainActivity extends Activity {
@@ -30,10 +32,17 @@ public class MainActivity extends Activity {
 
     private static String FAIL = "FAIL";
     private static String PASS = "PASS";
+
     public TextView outputURLs;
 
-    //Hardcoded website:
-    String siteUrl = "http://www.visual-engin.com";
+    /**
+     * Hardcoded website. Comment one of the following declarations in order to get diferent Unit Test Result.
+     */
+    //String siteUrl = "http://www.visual-engin.com";   //Unit Test -> NOT PASS
+    String siteUrl = "http://www.visual-engin.com/Web"; //Unit Test -> PASS
+
+    // create  a signal to let us know when our task is done.
+    //final CountDownLatch signal = new CountDownLatch(1);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,40 +69,40 @@ public class MainActivity extends Activity {
         if(D) Log.e(TAG, "++ ON START ++");
         //Layout TextView is linked:
         outputURLs = (TextView) findViewById(R.id.outputURLs);
-        if(D) Log.e(TAG, "...calling unit Test...");
-        unitTest();
-        /*
-        boolean result = unitTest();
-        if(result) {
-            Toast.makeText(this, "UnitTest PASS", Toast.LENGTH_LONG).show();
-        }else{
-            Toast.makeText(this, "UnitTest NOT PASS", Toast.LENGTH_LONG).show();
+        outputURLs.setMovementMethod(new ScrollingMovementMethod());
+
+        if(D) Log.e(TAG, "...START TEST...");
+
+        try {
+            unitTestdoInBackground();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-        */
     }
+
     /**
      * This class is used for Parse the desired URL
      * @author aleixpm
      * @version 1.0
      */
-    public class ParseURL extends AsyncTask<String, Void, String>{
+    public class ParseURL extends AsyncTask <String, Void, String> {
         /**
          * This method executes the URL parse InBackground
          * @return String which will fill the outputURLs
          */
         @Override
         protected String doInBackground(String... strings) {
-            StringBuffer myStringBuffer = new StringBuffer();
+            StringBuilder myStringBuilder = new StringBuilder();
+            Document doc;
             try {
                 if(D) Log.e(TAG_PARSE , "Connecting to ["+strings[0]+"]");
-                Document doc  = Jsoup.connect(strings[0]).get();
+                doc  = Jsoup.connect(strings[0]).get();
                 if(D) Log.e(TAG_PARSE , "Connected to ["+strings[0]+"]");
-
-                Element content = doc.getElementById("content");
-                Elements links = content.getElementsByTag("a");//Results to Null pointer Exception
+                Elements links = doc.select("a[href]");
+                if(D) Log.e(TAG_PARSE , "Element links...");
                 for (Element link : links) {
-                    String linkHref = link.attr("href");
-                    myStringBuffer.append(linkHref +"\n");
+                    String linkHref = link.attr("abs:href");
+                    myStringBuilder.append(linkHref).append("\n");
                     if(D) Log.e(TAG_PARSE , "linkHref:"+linkHref);
                     String linkText = link.text();
                     if(D) Log.e(TAG_PARSE , "linkText:"+linkText);
@@ -104,8 +113,8 @@ public class MainActivity extends Activity {
                 if(D) Log.e(TAG_PARSE , "...FAIL Catched..");
                 return FAIL;
             }
-            if(D) Log.e(TAG_PARSE , "...myStringBuffer returned..");
-            return myStringBuffer.toString();
+            if(D) Log.e(TAG_PARSE , "...myStringBuilder returned..");
+            return myStringBuilder.toString();
         }
         /**
          * onPostExecute displays the results of the AsyncTask. It sets outputURLs TextView.
@@ -114,29 +123,44 @@ public class MainActivity extends Activity {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             if(D) Log.e(TAG_PARSE , "...inside onPostExecute..");
-            outputURLs.setText(result);
-            if(D) Log.e(TAG_PARSE , "...onPostExecute: text set..");
+            if(result != null){
+                if(D) Log.e(TAG_PARSE , "result != null");
+                outputURLs.setText(result);
+                if(D) Log.e(TAG_PARSE , "...onPostExecute: text set :-)");
+            }else{
+                if(D) Log.e(TAG_PARSE , "result == null");
+            }
+            //signal.countDown();
+            unitTestOnPostExecute();
+        }
+    }
+    /**
+     * This method is used for unit testing OnPostExecute method of our AsyncTask: ParseURL.
+     * @author aleixpm
+     * @version 1.0
+     */
+    private void unitTestOnPostExecute() {
+        if(D) Log.e(TAG, "+++ unitTestOnPostExecute() +++");
+        String checkOutputURLs = outputURLs.getText().toString();
+        if("".equals(checkOutputURLs)){
+            if(D) Log.e(TAG, FAIL);
+            Toast.makeText(this, FAIL, Toast.LENGTH_LONG).show();
+        }else {
+            if (D) Log.e(TAG, PASS);
+            Toast.makeText(this, PASS, Toast.LENGTH_LONG).show();
         }
     }
 
     /**
-     * This method is used for unit testing, it print the result: FAIL or PASS.
+     * This method is used for unit testing doInBackground method of our AsyncTask: ParseURL.
      * @author aleixpm
      * @version 1.0
      */
-    public void unitTest(){
-        if(D) Log.e(TAG, "+++ myUnitTest() +++");
+    public void unitTestdoInBackground() throws InterruptedException {
+        if(D) Log.e(TAG, "+++ unitTestdoInBackground() +++");
         (new ParseURL()).execute(siteUrl);
-        /*
-        String checkOutputURLs = outputURLs.getText().toString();
-        if(FAIL.equals(checkOutputURLs)){
-            if(D) Log.e(TAG, FAIL);
-            return false;
-        }else {
-            if (D) Log.e(TAG, PASS);
-            return true;
-        }
-         */
+        //signal.await(10, TimeUnit.SECONDS);
+        if(D) Log.e(TAG, "--- unitTestdoInBackground()  ---");
     }
 
     @Override
