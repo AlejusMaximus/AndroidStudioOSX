@@ -74,7 +74,7 @@ public class MainActivity extends Activity {
         if(D) Log.e(TAG, "...START TEST...");
 
         try {
-            unitTestdoInBackground();
+            unitTest();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -156,11 +156,11 @@ public class MainActivity extends Activity {
      * @author aleixpm
      * @version 1.0
      */
-    public void unitTestdoInBackground() throws InterruptedException {
-        if(D) Log.e(TAG, "+++ unitTestdoInBackground() +++");
+    public void unitTest() throws InterruptedException {
+        if(D) Log.e(TAG, "+++ unitTest() +++");
         (new ParseURL()).execute(siteUrl);
         //signal.await(10, TimeUnit.SECONDS);
-        if(D) Log.e(TAG, "--- unitTestdoInBackground()  ---");
+        if(D) Log.e(TAG, "--- unitTest()  ---");
     }
 
     @Override
